@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>METAR Reader — plain-English airport weather</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <h1>🛫 METAR Reader</h1>
+      <p class="tagline">Type an airport name, city, or code — get the weather in plain English.</p>
+    </header>
+
+    <form id="search-form" autocomplete="off">
+      <input
+        id="q"
+        name="q"
+        type="text"
+        placeholder="e.g. JFK, Heathrow, San Francisco, KSFO"
+        aria-label="Airport name or code"
+        autofocus />
+      <button type="submit">Read METAR</button>
+    </form>
+
+    <div class="examples">
+      Try:
+      <button class="chip" data-q="JFK">JFK</button>
+      <button class="chip" data-q="Heathrow">Heathrow</button>
+      <button class="chip" data-q="Los Angeles">Los Angeles</button>
+      <button class="chip" data-q="EHAM">EHAM</button>
+      <button class="chip" data-q="Changi">Changi</button>
+    </div>
+
+    <section id="status" class="status" hidden></section>
+
+    <section id="result" class="result" hidden>
+      <div class="airport-head">
+        <h2 id="airport-name"></h2>
+        <span id="airport-codes" class="codes"></span>
+      </div>
+
+      <div class="raw-block">
+        <div class="raw-label">Raw METAR</div>
+        <code id="raw"></code>
+      </div>
+
+      <h3>In plain English</h3>
+      <p id="summary" class="summary"></p>
+      <ul id="plain" class="plain"></ul>
+
+      <div id="alt-wrap" class="alternatives" hidden>
+        <span class="alt-label">Did you mean:</span>
+        <span id="alternatives"></span>
+      </div>
+    </section>
+
+    <footer>
+      Live data from the
+      <a href="https://aviationweather.gov/" target="_blank" rel="noopener">NOAA Aviation Weather Center</a>.
+      Airport database: OurAirports.
+    </footer>
+  </main>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
