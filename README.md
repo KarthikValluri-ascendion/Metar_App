@@ -1,5 +1,7 @@
 # METAR Reader ✈️
 
+[![CI](https://github.com/KarthikValluri-ascendion/Metar_App/actions/workflows/ci.yml/badge.svg)](https://github.com/KarthikValluri-ascendion/Metar_App/actions/workflows/ci.yml)
+
 A small **Flask** web app that reads airport weather (a *METAR*) and explains it
 in plain English — similar to how [metar.live](https://metar.live/) works.
 
