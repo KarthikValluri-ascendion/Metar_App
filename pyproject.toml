@@ -1,0 +1,14 @@
+[tool.pytest.ini_options]
+# Make the project root importable so tests can `import app`, `import airports`,
+# etc. without packaging the project or fiddling with sys.path.
+pythonpath = ["."]
+
+# Where the tests live and how they are recognised.
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+# Sensible default output: quiet dots, show the reason for skips/xfails,
+# and treat unregistered markers as errors so typos don't pass silently.
+addopts = "-ra --strict-markers"

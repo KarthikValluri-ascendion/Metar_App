@@ -84,6 +84,28 @@ alternatives.
 
 ---
 
+## Running the tests
+
+The project ships with a [pytest](https://pytest.org) suite (64 tests) covering
+the METAR decoder, the airport resolver, and the Flask routes. The live network
+call is **mocked**, so the suite is fast, deterministic, and runs fully offline.
+
+```bash
+python -m pip install -r requirements-dev.txt
+python -m pytest
+```
+
+Test layout:
+
+| File | Covers |
+| --- | --- |
+| `tests/test_metar_parser.py` | Decoding of each METAR element + full reports |
+| `tests/test_airports.py` | Code/alias/fuzzy resolution against the bundled DB |
+| `tests/test_app.py` | Flask routes + JSON shape + error codes (network mocked) |
+| `tests/conftest.py` | Shared fixtures (`app`, `client`) |
+
+---
+
 ## API reference
 
 ### `GET /api/metar?q=<query>`
