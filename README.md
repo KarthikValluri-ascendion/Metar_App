@@ -92,12 +92,48 @@ The project ships with a [pytest](https://pytest.org) suite (64 tests) covering
 the METAR decoder, the airport resolver, and the Flask routes. The live network
 call is **mocked**, so the suite is fast, deterministic, and runs fully offline.
 
+### Run them
+
+From the project root (the folder containing `pyproject.toml`), with your
+virtual environment activated:
+
 ```bash
+# 1. Install the test dependency (first time only — pulls in Flask + pytest)
 python -m pip install -r requirements-dev.txt
+
+# 2. Run the whole suite
 python -m pytest
 ```
 
-Test layout:
+A successful run ends with a green summary line:
+
+```
+============================= 64 passed in 7.57s ==============================
+```
+
+> Tip: prefer `python -m pytest` over a bare `pytest` — it guarantees you run the
+> pytest inside your active virtual environment against the right Python.
+
+### Useful variations
+
+| Goal | Command |
+| --- | --- |
+| Verbose — one line per test | `python -m pytest -v` |
+| Stop at the first failure | `python -m pytest -x` |
+| Run a single file | `python -m pytest tests/test_metar_parser.py` |
+| Run tests matching a name | `python -m pytest -k wind_with_gusts` |
+| Show `print` / log output | `python -m pytest -s` |
+
+### Coverage (optional)
+
+See which lines the tests exercise:
+
+```bash
+python -m pip install pytest-cov
+python -m pytest --cov=. --cov-report=term-missing
+```
+
+### Test layout
 
 | File | Covers |
 | --- | --- |
@@ -105,6 +141,21 @@ Test layout:
 | `tests/test_airports.py` | Code/alias/fuzzy resolution against the bundled DB |
 | `tests/test_app.py` | Flask routes + JSON shape + error codes (network mocked) |
 | `tests/conftest.py` | Shared fixtures (`app`, `client`) |
+
+Configuration lives in `pyproject.toml` under `[tool.pytest.ini_options]`
+(`pythonpath = ["."]` lets the tests import `app`, `airports`, and
+`metar_parser` without packaging the project).
+
+### Troubleshooting
+
+- **`pytest: command not found`** → use `python -m pytest`, or re-run the install step.
+- **`ModuleNotFoundError: No module named 'flask'`** → the venv isn't active or
+  deps aren't installed; activate it and re-run the install step.
+- **`No module named 'app'` / `collected 0 items`** → run pytest from the
+  project root (the folder with `pyproject.toml`).
+
+The same `python -m pytest` command runs automatically in GitHub Actions on
+every push and pull request — see [CI](#) (`.github/workflows/ci.yml`).
 
 ---
 
